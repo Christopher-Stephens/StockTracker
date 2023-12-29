@@ -1,5 +1,5 @@
 #imports
-from flask import Flask
+from flask import Flask, render_template
 import requests
 from bs4 import BeautifulSoup
 
@@ -16,7 +16,7 @@ def stockTracking():
     soup = BeautifulSoup(page.content, "html.parser")
     results = soup.find('tbody')
     data =[tr_element for tr_element in results]
-
+    results=[]
     #Getting data and opening and closing data
     for str in data:
         date_Element = str.find('td', class_ = 'Ta(start)').text
@@ -24,7 +24,16 @@ def stockTracking():
         if number_Data != []:
             open_Element = number_Data[0].text
             close_Element = number_Data[3].text
-        
+        results += [f"Date: {date_Element}, Open: {open_Element} and Close: {close_Element}"]
         #print(f"Date: {date_Element}, Open: {open_Element} and Close: {close_Element}")
-    return "<p>Date " + date_Element + ", Open: "+ open_Element + " and Close: "+ close_Element+"</p>"
+        #"<p>Date " + date_Element + ", Open: "+ open_Element + " and Close: "+ close_Element+"</p>"
+    #Taking out duplicates
+    temp = results[0]
+    for dup in results:
+            if temp == dup:
+                if dup != results[0]:
+                    results.remove(dup)
+            temp = dup
+
+    return render_template("index.html", results=results)
             
