@@ -4,13 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
     <title>Flask App</title>
   </head>
   <body>
     <div id="app"></div>
-   <h1>This is a stocktracker</h1>
-   <p>{% for res in results %}
-        {{res}}<br>
-   {% endfor %}</p>
+    <form method="POST">
+        <label for="ticker">Enter the Stock ticker you want to track</label><br>
+        <input type="text" id="ticker" name="ticker"><br>
+        <intput type="submit" value="Submit">
+    </form>
+    <h1>{{dateArr[1][4] + dateArr[1][5]}}</h1>
+    <h1>You are tracking {{ticker}}</h1>
+   
+    <p>{% for res in results %}
+        {{res + " "}}
+    {% endfor %}</p>
   </body>
 </html>
